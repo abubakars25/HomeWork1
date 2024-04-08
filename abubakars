@@ -1,0 +1,268 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Apr  7 00:35:22 2024
+
+@author: abubakars
+"""
+Name: Abu Bakar Siddique
+CNET ID: abubakars
+
+# Question 1.1: Using a for loop, write code that takes in any list of objects, then prints out:
+# "The value at position __ is __" for every element in the loop, where the first blank is the
+# index location and the second blank the object at that index location.
+
+#Solution
+
+my_list = ['a', 'b', 'c', 'd']
+for index, item in enumerate(my_list):
+    print('The value at position {} is {}'.format(index, item))
+    
+# Question 1.2: A palindrome is a word or phrase that is the same both forwards and backwards. Write
+# code that takes a variable of any string, then tests to see whether it qualifies as a palindrome.
+# Make sure it counts the word "radar" and the phrase "A man, a plan, a canal, Panama!", while
+# rejecting the word "Microsoft" and the phrase "This isn't a palindrome". Print the results of these
+# four tests.
+
+#Solution
+
+#Creating function
+def is_palindrome (s):
+    #conversion to lowercase
+    lower_s = s.lower()
+    #check if the string is equal to its reverse 
+    return lower_s == lower_s[::-1]
+
+#Testing the function
+test_cases = ["radar", "A man, a plan, a canal, Panama!", "Microsoft", "This isn't a palindrome"]
+for test_case in test_cases:
+    if is_palindrome(test_case):
+        print(f'"{test_case}" is a palindrome')
+    else:
+        print(f'"{test_case}" is not a palindrome')
+        
+# Question 1.3: The code below pauses to wait for user input, before assigning the user input to the
+# variable. Beginning with the given code, check to see if the answer given is an available
+# vegetable. If it is, print that the user can have the vegetable and end the bit of code.  If
+# they input something unrecognized by our list, tell the user they made an invalid choice and make
+# them pick again. Repeat until they pick a valid vegetable.
+available_vegetables = ['carrot', 'kale', 'broccoli', 'pepper']
+choice = input('Please pick a vegetable I have available: ')
+
+#Solution
+
+available_vegetables = ['carrot', 'kale', 'broccoli', 'pepper']
+while True:
+    choice = input('Please pick a vegetable I have available: ')
+    if choice in available_vegetables:
+        print(f'you can have the {choice}')
+        break
+    else:
+        print('invalid choice, please try again')
+
+
+# Question 1.4: Write a list comprehension that starts with any list of strings and returns a new
+# list that contains each string in all lower-case letters, unless the modified string begins with
+# the letter "a" or "b", in which case it should drop it from the result.
+
+#Solution
+
+countries = ["Argentina", "Brazil", "Canada", "Australia", "Belgium", "Pakistan", "India"]
+
+#Mapping - Convert all to lowercase
+countries_lowercase = [s.lower() for s in countries]
+
+#Filtering - Exclude names starting with "a" or "b"
+countries_filtered = [s for s in countries_lowercase if not s.startswith(('a', 'b'))]
+
+print(countries_filtered)
+
+
+# Question 1.5: Beginning with the two lists below, write a single dictionary comprehension that
+# turns them into the following dictionary: {'IL':'Illinois', 'IN':'Indiana', 'MI':'Michigan', 'WI':'Wisconsin'}
+short_names = ['IL', 'IN', 'MI', 'WI']
+long_names  = ['Illinois', 'Indiana', 'Michigan', 'Wisconsin']
+
+#Solution
+
+short_names = ['IL', 'IN', 'MI', 'WI']
+long_names  = ['Illinois', 'Indiana', 'Michigan', 'Wisconsin']
+
+state_dictionary = {short: long for short, long in zip(short_names, long_names)}
+print(state_dictionary)
+    
+
+#############
+# Part 2: Functions and classes (must be answered using functions\classes)
+
+# Question 2.1: Write a function that takes two numbers as arguments, then
+# sums them together. If the sum is greater than 10, return the string 
+# "big", if it is equal to 10, return "just right", and if it is less than
+# 10, return "small". Apply the function to each tuple of values in the 
+# following list, with the end result being another list holding the strings 
+# your function generates (e.g. ["big", "big", "small"]).
+
+start_list = [(10, 0), (100, 6), (0, 0), (-15, -100), (5, 4)]
+
+
+#Solution
+
+start_list = [(10, 0), (100, 6), (0, 0), (-15, -100), (5, 4)]
+
+def add_and_classify(a, b):
+    total = a + b
+    if total > 10:
+        return "big"
+    elif total == 10:
+        return "just right"
+    else:
+        return "small"
+    
+output_list = [add_and_classify(a, b) for a, b in start_list]
+
+output_list
+
+
+# Question 2.2: The following code is fully-functional, but uses a global
+# variable and a local variable. Re-write it to work the same, but using one
+# argument and no global variable. Use no more than two lines of comments to
+# explain why this new way is preferable to the old way.
+
+a = 10
+def my_func():
+    b = 40
+    return a + b
+x = my_func()
+
+#Solution
+
+def my_func(a):
+    b = 40 
+    return a + b 
+
+#test
+my_func(50)
+
+#Question No. 8 
+
+#New way is preferable becasue by using a as an argument we are improving the 
+#reusability and flexibility. It's longer restricted by the global value
+
+
+# Question 2.3: Write a function that can generate a random password from
+# upper-case and lower-case letters, numbers, and special characters 
+# (!@#$%^&*). It should have an argument for password length, and should 
+# check to make sure the length is between 8 and 16, or else print a 
+# warning to the user and exit. Your function should also have a keyword 
+# argument named "special_chars" that defaults to True.  If the function 
+# is called with the keyword argument set to False instead, then the 
+# random values chosen should not include special characters. Create a 
+# second similar keyword argument for numbers. Use one of the two 
+# libraries below in your solution:
+#import random
+#from numpy import random
+
+import random
+
+def password_gen(password_length, special_characters=True, numbers_allowed=True):
+    # password length is not valid
+    if password_length < 8 or password_length > 16:
+        print("Warning Message: The length of password must be between 8-16 characters.")
+        return    
+    
+    # character pools
+    low_letters = 'abcdefghijklmnopqrstuvwxyz'
+    up_letter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    numbers = '0123456789'
+    special_chars = '!@#$%^&*'    
+    password = ''
+
+    while len(password) < 2:
+        password = password+(random.choice(up_letter))
+
+    while len(password) < 4:
+        password = password+(random.choice(low_letters))
+
+    # Build on the basis of argumnts
+    inc_numbers = len(password) +2
+    if numbers_allowed:
+        while len(password) < inc_numbers:
+            password = password+(random.choice(numbers))
+
+    inc_specials= len(password) +2
+    if special_characters:
+        while len(password) < inc_specials:
+            password = password+(random.choice(special_chars))
+
+    char_list = list(password)
+    random.shuffle(char_list)
+    password = ''.join(char_list)
+
+    while len(password) < password_length:
+        password = password+(random.choice(low_letters+up_letter))
+    #print(password)
+    return password
+
+
+#Question No. 9 
+
+# Question 2.4: Create a class named MovieDatabase that takes one argument
+# when an instance is created which stores the name of the person creating
+# the database (in this case, you) as an attribute. Then give it two methods:
+#
+# The first, named add_movie, that requires three arguments when called: 
+# one for the name of a movie, one for the genera of the movie (e.g. comedy, 
+# drama), and one for the rating you personally give the movie on a scale 
+# from 0 (worst) to 5 (best). Store those the details of the movie in the 
+# instance.
+#
+# The second, named what_to_watch, which randomly picks one movie in the
+# instance of the database. Tell the user what to watch tonight,
+# courtesy of the name of the name you put in as the creator, using a
+# print statement that gives all of the info stored about that movie.
+# Make sure it does not crash if called before any movies are in the
+# database.
+#
+# Finally, create one instance of your new class, and add four movies to
+# it. Call your what_to_watch method once at the end.
+
+
+class MovieDatabase:
+    def __init__(self, name):
+        self.name_person = name
+        self.movie_list = []
+
+    def add_movie(self, name_movie, genre_movie, rating_movie):
+        self.movie_list.append({'name': name_movie, 'genre': genre_movie, 'rating': rating_movie})
+
+    def what_to_watch(self):
+        if not self.movie_list:
+            print(f"Sorry, database is empty - {self.name_person}")
+        else:
+            movie = random.choice(self.movie_list)
+            print(f"{self.name_person} recommends you to watch '{movie['name']}' *** genre, {movie['genre']} has rating {movie['rating']}/5.")
+
+m_db = MovieDatabase("Abu G")
+
+m_db.add_movie("Comedy Movie", "Comedy", 5)
+m_db.add_movie("SciFi Movie", "Sci-Fi",3)
+m_db.add_movie("Drama Movie", "Drama", 4)
+m_db.add_movie("Anim Movie", "Animation", 4)
+
+m_db.what_to_watch()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        
